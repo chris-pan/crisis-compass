@@ -38,8 +38,16 @@ def access_data_by_name(address_name, data):
     print(hosp_ind)
     hosp_data=(data["percentage inpatient"][hosp_ind[0]],data["percentage icu"][hosp_ind[0]], data["distance"][hosp_ind[0]])
     return hosp_data
-
-
+#returns the k closest hosp
+def return_first_k_addresses(n,data):
+    street_list=[]
+    top_k=data.head(n)
+    i=0
+    while i<n:
+        str_addr=top_k.iloc[i]["hospital_name"]+': '+top_k.iloc[i]["address"]+', '+top_k.iloc[i]["city"]+', '+top_k.iloc[i]["state"]+", "+str(int(top_k.iloc[i]["zip"]))
+        street_list.append(str_addr)
+        i+=1
+    return street_list
 
 
 hospital_data=pd.read_csv("https://healthdata.gov/sites/default/files/reported_hospital_capacity_admissions_facility_level_weekly_average_timeseries_20210110.csv") # get the file
@@ -51,8 +59,13 @@ bed_data["percentage icu"]=np.where(((bed_data["total_icu_beds_7_day_sum"]<=0) &
 #column for the distance to be calculated by Google API
 bed_data["distance"]=np.NaN
 
-filtered_df=filter_by_state_calc_distance("CA",0.50,0.50,bed_data)
+#first filter all states out, sort by distance, and return hospitals with capacity under limits
+filtered_df=filter_by_state_calc_distance("CA",0.50,0.50,bed_data)#--------------------------------------------This line--first filter
+#can access a hospital by a comma separated address
 best_hospital=access_data_by_name("2070 CLINTON AVENUE, Alameda, 94501",
 filtered_df)
-display(filtered_df)
-print(best_hospital)
+#return the addresses(hosp name: addr) of the k hospitals that are closest to you
+closest_hospitals=return_first_k_addresses(10,filtered_df)#-----------------------------------------------------then gather-> with both you get the list of hospitals closest
+#just prints the addr
+for addr in closest_hospitals:
+    print(addr)
