@@ -2,6 +2,7 @@ import pandas as pd
 import datetime
 import numpy as np
 
+
 ## just kept a separate filtering method though it could be kept in the same line, change if want
 def filter_by_capacity(icu_percentage, inpatient_percentage, data):
     return data[((data["percentage inpatient"]<inpatient_percentage) & (data["percentage inpatient"]>=0.0))|((data["percentage icu"]<icu_percentage) & (data["percentage icu"]>=0.0))]
@@ -17,6 +18,27 @@ def filter_by_state_calc_distance(current_location, icu_percentage, inpatient_pe
     #state_df.sort_values(by=["distance"])--sort dataframe by distance in ascending order-> can pick the k closest by then
     return filter_by_capacity(icu_percentage,inpatient_percentage,state_df)
     
+    #search by address STREET NAME, CITY, ZIP CODE
+    #will only search by street name and zip code since the matching
+    #for the city sucks
+def access_data_by_name(address_name, data):
+    split_addr=address_name.split(',')
+    print(split_addr)
+    length=len(split_addr)
+    print(length)
+    for word in split_addr:
+        word=word.strip()
+        word=word.upper()
+        print(word)
+    hosp_data=1
+    hosp_ind=data[((data["address"]==split_addr[0])&(data["zip"]==float(split_addr[2])))].index
+    if(len(hosp_ind)==0):
+        print("No match\n")
+        return ()
+    print(hosp_ind)
+    hosp_data=(data["percentage inpatient"][hosp_ind[0]],data["percentage icu"][hosp_ind[0]], data["distance"][hosp_ind[0]])
+    return hosp_data
+
 
 
 
@@ -30,5 +52,7 @@ bed_data["percentage icu"]=np.where(((bed_data["total_icu_beds_7_day_sum"]<=0) &
 bed_data["distance"]=np.NaN
 
 filtered_df=filter_by_state_calc_distance("CA",0.50,0.50,bed_data)
+best_hospital=access_data_by_name("2070 CLINTON AVENUE, Alameda, 94501",
+filtered_df)
 display(filtered_df)
-
+print(best_hospital)
