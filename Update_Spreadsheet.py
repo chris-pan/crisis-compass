@@ -9,7 +9,6 @@ api_key ='INSERT API KEY'
 # url variable store url  
 url ='https://maps.googleapis.com/maps/api/distancematrix/json?'
 
-
 ## just kept a separate filtering method (by capacity)
 def filter_by_capacity(icu_percentage, inpatient_percentage, data):
     return data[((data["percentage inpatient"]<inpatient_percentage) & (data["percentage inpatient"]>=0.0))|((data["percentage icu"]<icu_percentage) & (data["percentage icu"]>=0.0))]
@@ -46,7 +45,7 @@ def access_data_by_name(address_name, data):
     print(hosp_ind)
     hosp_data=(data["percentage inpatient"][hosp_ind[0]],data["percentage icu"][hosp_ind[0]], data["distance"][hosp_ind[0]])
     return hosp_data
-    
+
 #returns the k closest hosp
 def return_first_k_addresses(n,data):
     street_list=[]
