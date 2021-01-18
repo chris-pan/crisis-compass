@@ -15,15 +15,23 @@ def filter_by_capacity(icu_percentage, inpatient_percentage, data):
 
 #first filters by state, calculates and sorts the df by distance, then if you want, can filter by threshold icu inpatient
 def filter_by_state_calc_distance(current_location, icu_percentage, inpatient_percentage, data):
-    my_state=current_location[-2:]#grabbing the state from the last two letters of the address- make sure no trailing spaces in str
+    my_state=current_location[-2:]
+    my_state = current_location.split(",")[-1].strip()[:2]
     state_df=data.query('state==@my_state') # can add filter for percentage in icu or inpatient
-    for row in len(state_df):
-        dest = state_df["address"]
+
+    print(state_df)
+    
+    i = 0
+    for index, row in state_df.iterrows():
+        if i > 10:
+            break
+        i += 1
+        dest = row["address"]
         r = requests.get(url + 'origins = ' + current_location +
                     '&destinations = ' + dest +
                     '&key = ' + api_key) 
         dist = r.json()
-       state_df["distance"][row] = dist
+        row["distance"] = dist
     state_df.sort_values(by=["distance"]) # sort dataframe by distance in ascending order-> can pick the k closest by then
     return filter_by_capacity(icu_percentage,inpatient_percentage,state_df)
     
@@ -48,11 +56,11 @@ def access_data_by_name(address_name, data):
 
 #returns the k closest hosp
 def return_first_k_addresses(n,data):
-    street_list=[]
+    street_list={}
     top_k=data.head(n)
     i=0
     while i<n:
-        str_addr=top_k.iloc[i]["hospital_name"]+': '+top_k.iloc[i]["address"]+', '+top_k.iloc[i]["city"]+', '+top_k.iloc[i]["state"]+", "+str(int(top_k.iloc[i]["zip"]))
-        street_list.append(str_addr)
+        # str_addr=top_k.iloc[i]["hospital_name"]+': '+top_k.iloc[i]["address"]+', '+top_k.iloc[i]["city"]+', '+top_k.iloc[i]["state"]+", "+str(int(top_k.iloc[i]["zip"]))
+        street_list[top_k.iloc[i]["hospital_name"]] = top_k.iloc[i]["address"]+', '+top_k.iloc[i]["city"]+', '+top_k.iloc[i]["state"]+" "+str(int(top_k.iloc[i]["zip"]))
         i+=1
     return street_list
