@@ -2,6 +2,9 @@
 HackDavis 2021
 ### Navigate to a safer direction
 
+## How to use
+Replace the api_key in Update_Spreadsheet.py with a valid Google Distance Matrix API Key (When app is finished this will be unnecessary). Run nearest_icu.py and provide user location. Once ICUs are given, select one to get directions from Google Maps. Select parameters (e.g. # of hospitals displayed, percent full, etc.) as desired.
+
 ## Inspiration
 Our inspiration was from the news of how the ICUs were reaching full capacity for taking in Covid Patients. Though we have not addressed the current issue of nurses being overworked by including the current number of beds being staffed, I believe that we can help guide newly infected Covid patients to ICU clinics that can accept more patients in order to offload the stress crowded ICUs are facing.
 Due to current circumstances surrounding the pandemic, hospitals have been overwhelmed with COVID-19 patients, most being near full capacity. To avoid patients in need of urgent care being turned away, our team has come up with a mobile solution: Crisis Compass.
