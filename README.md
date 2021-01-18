@@ -16,4 +16,4 @@ We're proud of getting the backend functionality of the application running and 
 ## What we learned
 We learned how to parse online datasets with the pandas package from python . We also learned how to develop design prototypes using Figma, where we worked on branding through color schemes, font design, and logo/slogan.
 ## What's next for Crisis Compass
-Although we have the backend functionality and a concept for the frontend done, we haven’t created the actual application yet. Our next steps would be to bring our idea to life and create the mobile application, using tools such as Flutter. 
+Although we have the backend functionality and a concept for the frontend done, we haven’t created the actual application yet. Our next steps would be to bring our idea to life. For instance, one of the issues we haven’t been able to resolve on the backend was to update the ICU/inpatient bed data every week; another issue is not having a frontend implemented through Flutter.
