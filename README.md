@@ -1,6 +1,7 @@
 # crisis-compass
-HackDavis 2021
-### Navigate to a safer direction
+## Navigate to a safer direction
+### HackDavis 2021
+
 
 ## How to use
 Replace the api_key in Update_Spreadsheet.py with a valid Google Distance Matrix API Key (When app is finished this will be unnecessary). Run nearest_icu.py and provide user location. Once ICUs are given, select one to get directions from Google Maps. Select parameters (e.g. # of hospitals displayed, percent full, etc.) as desired.
